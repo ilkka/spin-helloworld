@@ -14,3 +14,14 @@ route = "/..."
 [component.build]
 command = "cargo build --target wasm32-wasi --release"
 watch = ["src/**/*.rs", "Cargo.toml"]
+
+[[component]]
+id = "name-greeter"
+source = "name-greeter/target/wasm32-wasi/release/name_greeter.wasm"
+allowed_http_hosts = []
+[component.trigger]
+route = "/greet"
+[component.build]
+command = "cargo build --target wasm32-wasi --release"
+workdir = "name-greeter"
+watch = ["src/**/*.rs", "Cargo.toml"]
