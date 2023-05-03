@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spin-helloworld
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spin-helloworld
+  template:
+    metadata:
+      labels:
+        app: spin-helloworld
+    spec:
+      runtimeClassName: wasmtime-spin
+      containers:
+        - name: spin-helloworld
+          image: spin-helloworld:v0.0.1
+          command: ["/"]
+          env:
+            - name: RUST_LOG
+              value: info
+          resources:
+            limits:
+              memory: "128M"
+              cpu: "1"

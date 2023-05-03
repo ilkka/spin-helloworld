@@ -1,0 +1,9 @@
+.git
+.k8s
+node-image
+target
+.dockerignore
+.gitignore
+kind-config.yaml
+Taskfile.yaml
+.task
