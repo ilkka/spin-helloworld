@@ -10,6 +10,5 @@ fn handle_name_greeter(req: Request) -> Result<Response> {
     println!("{:?}", req.headers());
     Ok(http::Response::builder()
         .status(200)
-        .header("foo", "bar")
-        .body(Some("Hello, Fermyon".into()))?)
+        .body(Some("This one is supposed to greet you by name".into()))?)
 }
