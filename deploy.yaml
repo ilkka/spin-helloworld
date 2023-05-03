@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spin-helloworld
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: spin-helloworld
+  template:
+    metadata:
+      labels:
+        app: spin-helloworld
+    spec:
+      runtimeClassName: wasmtime-spin
+      containers:
+        - name: spin-helloworld
+          image: ghcr.io/ilkka/spin-helloworld/spin-helloworld:0.1.0
+          command: ["/"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spin-helloworld
+spec:
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  selector:
+    app: spin-helloworld
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: spin-helloworld
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "false"
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /spin-helloworld
+            pathType: Prefix
+            backend:
+              service:
+                name: spin-helloworld
+                port:
+                  number: 80
